@@ -28,8 +28,13 @@
 #define TURON_BADPARAM   -4   /* invalid parameter supplied */
 #define TURON_NOTINIT    -5   /* TURON library not initialized */
 
-typedef void *turon_ptr;
+typedef struct turon_md5 {
+    
+    void **data; 
+} turon_md5_t;
 
-int winkie_init (turon_ptr *);
+int turon_md5_init (turon_md5_t *, void **);
+int turon_md5_feed (turon_md5_t *, char *, int);
+int turon_md5_finalize (turon_md5_t *);
 
 #endif // TURON_BASE_H

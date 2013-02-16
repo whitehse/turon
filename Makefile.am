@@ -9,4 +9,4 @@ DIST_SUBDIRS = $(GENERIC_LIBRARY_NAME) examples
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = turon-1.0.pc
 
-EXTRA_DIST=
+EXTRA_DIST=m4

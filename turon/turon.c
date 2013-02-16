@@ -1,8 +1,9 @@
 #include "turon/turon.h"
-#include <string.h>
+/*#include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h>*/
 
-int winkie_init (turon_ptr * ptr) {
+int turon_md5_init (turon_md5_t *md5, void **data) {
+    md5->data = data;
     return TURON_OK;
 }

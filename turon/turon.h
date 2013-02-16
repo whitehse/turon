@@ -20,9 +20,10 @@
 #ifndef TURON_H
 #define TURON_H
 
-/*This is a main header - it inludes everything else.*/
+#include <stdint.h>
 
 #include "turon/turon_base.h"
+
 
 #endif // TURON_H
 
