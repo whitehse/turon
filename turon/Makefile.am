@@ -1,5 +1,5 @@
-h_sources = turon.h turon_base.h
-cc_sources = turon.c
+h_sources = turon.h
+cc_sources = md5.c
 
 library_includedir=$(includedir)/$(GENERIC_LIBRARY_NAME)-$(GENERIC_API_VERSION)/$(GENERIC_LIBRARY_NAME)
 library_include_HEADERS = $(h_sources)
