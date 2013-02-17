@@ -3,3 +3,12 @@ libturon
 ----------
 
 libturon description.
+
+
+notes:
+
+aclocal -I m4
+automake
+autoconf
+./configure
+make dist
