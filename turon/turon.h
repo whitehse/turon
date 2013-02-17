@@ -21,6 +21,7 @@
 #define TURON_H
 
 #include <stdint.h>
+#include <stdio.h>
 
 #include "turon/turon_base.h"
 
