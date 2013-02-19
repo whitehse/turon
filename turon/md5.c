@@ -9,15 +9,12 @@ const char empty_string[32] = "                                ";
 int process_512_bit_chunk (turon_md5_t *md5) {
 
     int i;
-    uint32_t a, b, c, d, j, k, temp;
-    uint32_t *w;
+    uint32_t a, b, c, d, j, k, l, temp;
 
     a = md5->word_a;
     b = md5->word_b;
     c = md5->word_c;
     d = md5->word_d;
-
-    w = (uint32_t *) md5->buffer;
 
     for(i = 0; i<64; i++) {
 
@@ -37,7 +34,13 @@ int process_512_bit_chunk (turon_md5_t *md5) {
         temp = d;
         d = c;
         c = b;
-        b = b + TURON_MD5_ROTATE((a + j + turon_md5_rotate_array[i] + w[k]), turon_md5_shift_array[i]);
+        /* Calculate 32-bit value in a way which works on both big and
+           little endian systems */
+        l = ((uint8_t)md5->buffer[(k*4)+0]) +
+            ((uint8_t)md5->buffer[(k*4)+1] << 8) +
+            ((uint8_t)md5->buffer[(k*4)+2] << 16) +
+            ((uint8_t)md5->buffer[(k*4)+3] << 24);
+        b = b + TURON_MD5_ROTATE((a + j + turon_md5_rotate_array[i] + l), turon_md5_shift_array[i]);
         a = temp;
     }
 
