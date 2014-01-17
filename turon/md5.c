@@ -1,12 +1,13 @@
 #include "turon/turon.h"
+#include "turon/turon_md5.h"
 #include <stdio.h>
 /*#include <string.h>
 #include <stdlib.h>*/
 
-const char empty_buffer[56] = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
-const char empty_string[32] = "                                ";
+const char empty_md5_buffer[56] = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
+const char empty_md5_string[32] = "                                ";
 
-int process_512_bit_chunk (turon_md5_t *md5) {
+int process_512_bit_md5_chunk (turon_md5_t *md5) {
 
     int i;
     uint32_t a, b, c, d, j, k, l, temp;
@@ -61,7 +62,7 @@ int turon_md5_init (turon_md5_t *md5, void **data) {
     md5->length = 0;
     md5->buffer_index = 0;
 
-    memcpy (&md5->hash_string, &empty_string, 32);
+    memcpy (&md5->hash_string, &empty_md5_string, 32);
     md5->hash_string[32] = "\0";
 
     return TURON_OK;
@@ -79,7 +80,7 @@ int turon_md5_feed (turon_md5_t *md5, char *buf, int buf_len) {
         copy_len = 64 - md5->buffer_index;
         memcpy (&md5->buffer[md5->buffer_index], &buf[passed_buf_index], copy_len);
         passed_buf_index += copy_len;
-        process_512_bit_chunk (md5);
+        process_512_bit_md5_chunk (md5);
         md5->buffer_index = 0;
     }
     if (buf_len > passed_buf_index) {
@@ -97,13 +98,13 @@ int turon_md5_finalize (turon_md5_t *md5) {
 
     if (md5->buffer_index < 56) {
         md5->buffer[md5->buffer_index] = 128;
-        memcpy (&md5->buffer[md5->buffer_index+1], &empty_buffer, 56 - md5->buffer_index - 1);
+        memcpy (&md5->buffer[md5->buffer_index+1], &empty_md5_buffer, 56 - md5->buffer_index - 1);
     } else {
         md5->buffer[md5->buffer_index] = 128;
-        memcpy (&md5->buffer[(md5->buffer_index)+1], &empty_buffer, 64 - md5->buffer_index - 1);
-        process_512_bit_chunk (md5);
+        memcpy (&md5->buffer[(md5->buffer_index)+1], &empty_md5_buffer, 64 - md5->buffer_index - 1);
+        process_512_bit_md5_chunk (md5);
         md5->buffer_index = 0;
-        memcpy (&md5->buffer[md5->buffer_index], &empty_buffer, 56);
+        memcpy (&md5->buffer[md5->buffer_index], &empty_md5_buffer, 56);
     }
     md5->buffer[56] = md5->length & 0x00000000000000ff;
     md5->buffer[57] = (md5->length & 0x000000000000ff00) >> 8;
@@ -113,7 +114,7 @@ int turon_md5_finalize (turon_md5_t *md5) {
     md5->buffer[61] = (md5->length & 0x0000ff0000000000) >> 40;
     md5->buffer[62] = (md5->length & 0x00ff000000000000) >> 48;
     md5->buffer[63] = md5->length >> 56;
-    process_512_bit_chunk (md5);
+    process_512_bit_md5_chunk (md5);
     md5->buffer_index = 0;
 
     sprintf(md5->hash_string, "%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x\0",

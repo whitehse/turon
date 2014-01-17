@@ -3,7 +3,7 @@ dnl --------------------------------
 dnl Initialization macros.
 dnl --------------------------------
 
-AC_INIT(turon/turon.h)
+AC_INIT(turon/turon.h, turon/turon_md5.h, turon/turon_sha256.h)
 AM_CONFIG_HEADER()
 
 dnl -----------------------------------------------
